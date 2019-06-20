@@ -1,4 +1,4 @@
-# python-tree-walk
+# python-tree-walk [![Build Status](https://travis-ci.org/uribrecher/python-tree-walk.svg?branch=master)](https://travis-ci.org/uribrecher/python-tree-walk)
 a python module for deep_compare and patch of tree structures
 
 
