@@ -240,7 +240,7 @@ test_cases = (CountReflectTestCase, CompareTestCase,
               PatchTreeTestCase)
 
 
-def load_tests(loader, tests, pattern):
+def load_tests(loader, std_tests, pattern):
     treewalk_suite = unittest.TestSuite()
     for test_class in test_cases:
         tests = loader.loadTestsFromTestCase(test_class)
@@ -249,5 +249,5 @@ def load_tests(loader, tests, pattern):
 
 
 if __name__ == '__main__':
-    suite = load_tests(unittest.TestLoader())
+    suite = load_tests(unittest.TestLoader(), [], None)
     unittest.TextTestRunner(verbosity=2).run(suite)

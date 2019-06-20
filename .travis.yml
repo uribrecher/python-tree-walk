@@ -7,3 +7,5 @@ python:
 - pypy
 - pypy3
 sudo: false
+script:
+  - python tests.py
