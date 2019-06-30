@@ -80,7 +80,7 @@ class CountReflectTestCase(SubtreeSetup):
         treewalk.reflect_tree(self.tree, inplace_mirror_tree,
                               node_filter=lambda x: x != '/root/.mirror')
 
-        leaf_count, node_count = treewalk.count_nodes(self.tree)
+        leaf_count, _ = treewalk.count_nodes(self.tree)
         self.assertEqual(leaf_count, self.leaf_count * 2)
 
 
@@ -114,7 +114,7 @@ def insert_leaf(tree, node_ref, node_data, patch):
 def simulate_delete_leaf(tree, other_tree, node_ref, node_data, patch):
     reflected_node_ref = other_tree.get_abs_ref(tree.get_relative_ref(node_ref))
     other_tree.write(reflected_node_ref, node_data)
-    head, tail = os.path.split(node_ref)
+    head, _ = os.path.split(node_ref)
     tree.make_node(head)
     patch.delete_leafs[node_ref] = node_data
     # print 'added leaf {}, added node {}'.format(node_ref, head)
@@ -129,8 +129,8 @@ def simulate_modif(tree, other_tree, node_ref, node_data, patch):
 
 def simulate_delete_node(tree, other_tree, node_ref, patch):
     reflected_node_ref = other_tree.get_abs_ref(tree.get_relative_ref(node_ref))
-    head, tail = os.path.split(node_ref)
-    reflect_head, reflect_tail = os.path.split(reflected_node_ref)
+    head, _ = os.path.split(node_ref)
+    reflect_head, _ = os.path.split(reflected_node_ref)
     deleted_node = os.path.join(reflect_head, 'DELETED_NODE')
     tree.make_node(head)
     other_tree.make_node(deleted_node)

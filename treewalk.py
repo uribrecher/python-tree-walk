@@ -1,6 +1,6 @@
 import logging
 import os
-from stat import *
+import stat
 import shutil
 import json
 
@@ -57,7 +57,7 @@ class FileSystemTree(BaseTree):
 
     def is_leaf(self, node_data):
         mode = node_data.st_mode
-        return not S_ISDIR(mode)
+        return not stat.S_ISDIR(mode)
 
     def get_subnodes(self, node_ref, node_data):
         return [os.path.join(node_ref, x) for x in os.listdir(node_ref)
@@ -73,7 +73,7 @@ class FileSystemTree(BaseTree):
             with open(node_ref, 'w+') as write_file:
                 json.dump(data, write_file)
         except IOError:
-            head, tail = os.path.split(node_ref)
+            head, _ = os.path.split(node_ref)
             os.makedirs(head)
             self.write(node_ref, data)
 
