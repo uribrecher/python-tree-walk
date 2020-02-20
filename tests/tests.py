@@ -2,7 +2,7 @@ import unittest
 import treewalk
 import logging
 import os
-import randomtree
+from .randomtree import *
 import copy
 
 
@@ -13,7 +13,7 @@ class RandomTreeSetup(unittest.TestCase):
     def setUp(self):
         self.tree_object = {"root": {"A": {}}}
         self.tree = treewalk.MemoryTree('/root', self.tree_object)
-        self.leaf_count = randomtree.random_tree(
+        self.leaf_count = random_tree(
             self.tree,
             lambda tree, node_ref, node_data: tree.write(node_ref, node_data),
             count=10000, variance=2000)
@@ -142,21 +142,21 @@ class CompareWithModificationsSetup(CompareBaseSetup):
         super(CompareWithModificationsSetup, self).setUp()
         num = 1000
         var = 300
-        randomtree.random_tree(
+        random_tree(
             self.tree,
             lambda tree, node_ref, node_data: insert_leaf(tree, node_ref, node_data, self.patch_context),
             count=num, variance=var)
-        randomtree.random_tree(
+        random_tree(
             self.tree,
             lambda tree, random_ref, random_data: simulate_delete_leaf(
                 tree, self.other_tree, random_ref, random_data, self.patch_context),
             count=num, variance=var)
-        randomtree.random_tree(
+        random_tree(
             self.tree,
             lambda tree, random_ref, random_data: simulate_modif(
                 tree, self.other_tree, random_ref, random_data, self.patch_context),
             count=num, variance=var)
-        randomtree.random_tree(self.tree,
+        random_tree(self.tree,
                                lambda tree, random_ref, random_data: simulate_delete_node(
                                    tree, self.other_tree, random_ref, self.patch_context),
                                count=num, variance=var)
@@ -188,21 +188,21 @@ class CompareInplaceSetup(RandomTreeSetup):
         self.patch_context = treewalk.PatchContext()
         num = 1000
         var = 300
-        randomtree.random_tree(
+        random_tree(
             self.tree,
             lambda tree, node_ref, node_data: insert_leaf(tree, node_ref, node_data, self.patch_context),
             count=num, variance=var)
-        randomtree.random_tree(
+        random_tree(
             self.tree,
             lambda tree, random_ref, random_data: simulate_delete_leaf(
                 tree, self.subtree, random_ref, random_data, self.patch_context),
             count=num, variance=var)
-        randomtree.random_tree(
+        random_tree(
             self.tree,
             lambda tree, random_ref, random_data: simulate_modif(
                 tree, self.subtree, random_ref, random_data, self.patch_context),
             count=num, variance=var)
-        randomtree.random_tree(self.tree,
+        random_tree(self.tree,
                                lambda tree, random_ref,
                                random_data: simulate_delete_node(tree, self.subtree, random_ref, self.patch_context),
                                count=num, variance=var)
