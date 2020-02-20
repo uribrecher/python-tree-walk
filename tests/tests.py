@@ -1,7 +1,6 @@
 import unittest
 import treewalk
 import logging
-import os
 from .randomtree import *
 import copy
 
@@ -87,8 +86,7 @@ class CountReflectTestCase(SubtreeSetup):
 class CompareBaseSetup(RandomTreeSetup):
     def setUp(self):
         super(CompareBaseSetup, self).setUp()
-        self.other_tree_object = {'other_root': {}}
-        self.other_tree_object['other_root'] = copy.deepcopy(self.tree_object['root'])
+        self.other_tree_object = {'other_root': copy.deepcopy(self.tree_object['root'])}
         self.other_tree = treewalk.MemoryTree('/other_root', self.other_tree_object)
         self.patch_context = treewalk.PatchContext()
 
@@ -157,9 +155,9 @@ class CompareWithModificationsSetup(CompareBaseSetup):
                 tree, self.other_tree, random_ref, random_data, self.patch_context),
             count=num, variance=var)
         random_tree(self.tree,
-                               lambda tree, random_ref, random_data: simulate_delete_node(
+                    lambda tree, random_ref, random_data: simulate_delete_node(
                                    tree, self.other_tree, random_ref, self.patch_context),
-                               count=num, variance=var)
+                    count=num, variance=var)
 
     def tearDown(self):
         super(CompareWithModificationsSetup, self).tearDown()
@@ -202,10 +200,11 @@ class CompareInplaceSetup(RandomTreeSetup):
             lambda tree, random_ref, random_data: simulate_modif(
                 tree, self.subtree, random_ref, random_data, self.patch_context),
             count=num, variance=var)
-        random_tree(self.tree,
-                               lambda tree, random_ref,
-                               random_data: simulate_delete_node(tree, self.subtree, random_ref, self.patch_context),
-                               count=num, variance=var)
+        random_tree(
+            self.tree,
+            lambda tree, random_ref,
+            random_data: simulate_delete_node(tree, self.subtree, random_ref, self.patch_context),
+            count=num, variance=var)
         # print json.dumps(self.tree_object, indent=4)
 
     def tearDown(self):
